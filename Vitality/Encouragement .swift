@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct Encouragement_: View {
-    @State private var generatedEncourage: String = "Tap for a positive word :)"
+    
+    
+    @State private var generatedEncourage: String = "Tap button for a positive word :)"
     
     let adjectives = ["You are capable of amazing things! ✨",
                       "Every small step counts toward your journey! 🌟",
@@ -83,23 +85,47 @@ struct Encouragement_: View {
                       "You are allowed to forgive yourself for past mistakes! 🌅",
                       "Your peace of mind is worth protecting fiercely! 🛡️"]
     
+ 
+    
     var body: some View {
+        
         VStack {
+            
             Text(generatedEncourage)
+            //changing the text color to brown:
+                .foregroundColor(Color(red: 0.331, green: 0.272, blue: 0.252))
                 .font(.largeTitle)
+                
+            
+                .padding()
+            
                 .padding()
 
-            Button("Generate Name") {
+            Button("Click here "){
+                
                 if let randomAdjective = adjectives.randomElement()
                   {
+                    
                     generatedEncourage = "\(randomAdjective)"
                 }
             }
+            //text color in the button is sand
+            .foregroundColor(Color(red: 0.937, green: 0.893, blue: 0.811))
+            //button color dark brown
+            .background(Color(red: 0.331, green: 0.272, blue: 0.252))
+                      .cornerRadius(100)
         }
+        //background color sand **placement must be outside of the VStack bracket
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background {
+                    (Color(red: 0.937, green: 0.893, blue: 0.811))
+                        .ignoresSafeArea()
+                }
+        
     }
+        
 }
-
-
+    
 #Preview {
     Encouragement_()
 }
