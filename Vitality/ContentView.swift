@@ -12,7 +12,7 @@ struct ContentView: View {
         NavigationStack{
             VStack{
                 
-                Text("Welcome to Vitality!")
+                Text("Vitality!")
                     .font(.largeTitle)
                     .fontWeight(.heavy)
                     .foregroundColor(Color(red: 0.071, green: 0.398, blue: 0.309))
