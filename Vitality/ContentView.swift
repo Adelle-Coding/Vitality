@@ -12,7 +12,7 @@ struct ContentView: View {
         NavigationStack{
             VStack{
                 Text("Vitality")
-                NavigationLink(destination: Checklist()) {
+                NavigationLink(destination: ChecklistView()) {
                     Text("Checklist")
                         
                 }
