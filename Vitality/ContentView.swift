@@ -11,6 +11,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack{
             VStack{
+
                 
                 Text("Vitality!")
                     .font(.largeTitle)
@@ -27,6 +28,7 @@ struct ContentView: View {
                     
                     Text("Vitality")
                     NavigationLink(destination: ChecklistView()) {
+
                         
                         Text("Checklist")
                         //text color in the button is sand
