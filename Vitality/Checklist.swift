@@ -8,40 +8,59 @@
 import SwiftUI
 
 struct ChecklistItem: Identifiable {
-    let id = UUID() // Unique identifier for each item
-    var name: String
-    var isChecked: Bool
+    let id = UUID()
+    var title: String
+    var isCompleted: Bool
 }
+
 struct ChecklistView: View {
     @State private var items: [ChecklistItem] = [
-        ChecklistItem(name: "Buy groceries", isChecked: false),
-        ChecklistItem(name: "Walk the dog", isChecked: true),
-        ChecklistItem(name: "Finish report", isChecked: false)
+        ChecklistItem(title: "Buy Groceries", isCompleted: false),
+        ChecklistItem(title: "Walk the Dog", isCompleted: true)
     ]
+    @State private var newItemTitle: String = ""
 
     var body: some View {
-        List {
-            ForEach($items) { $item in // Use $item for binding
-                Toggle(isOn: $item.isChecked) {
-                    Text(item.name)
+        NavigationView {
+            VStack {
+                List {
+                    ForEach(items) { item in
+                        HStack {
+                            Button {
+                                toggleCompletion(for: item) // Function to mark as complete/incomplete
+                            } label: {
+                                Image(systemName: item.isCompleted ? "checkmark.circle.fill" : "circle")
+                                    .foregroundColor(item.isCompleted ? .green : .gray)
+                            }
+                            TextField("Edit Item", text: binding(for: item))
+                        }
+                    }
+                    .onDelete(perform: deleteItem)
+                    .onMove(perform: moveItem)
                 }
-                .toggleStyle(CheckboxToggleStyle()) // Apply the custom style
+                .navigationTitle("My Checklist")
+                .toolbar {
+                    EditButton()
+                    Button("Add") {
+                        addNewItem()
+                    }
+                }
+                // Add an input field for new items or present a separate view
             }
         }
     }
-}
-struct CheckboxToggleStyle: ToggleStyle {
-    func makeBody(configuration: Self.Configuration) -> some View {
-        HStack {
-            configuration.label
-            Spacer()
-            Image(systemName: configuration.isOn ? "checkmark.square.fill" : "square")
-                .resizable()
-                .frame(width: 24, height: 24)
-                .onTapGesture {
-                    configuration.isOn.toggle()
-                }
+
+    // Functions for toggling completion, deleting, moving, and adding items
+    func toggleCompletion(for item: ChecklistItem) { /* ... */ }
+    func deleteItem(at offsets: IndexSet) { /* ... */ }
+    func moveItem(from source: IndexSet, to destination: Int) { /* ... */ }
+    func addNewItem() { /* ... */ }
+    
+    // Binding helper for TextField
+    private func binding(for item: ChecklistItem) -> Binding<String> {
+        guard let index = items.firstIndex(where: { $0.id == item.id }) else {
+            fatalError("Can't find item in array")
         }
+        return $items[index].title
     }
 }
-
